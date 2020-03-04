@@ -15,6 +15,7 @@ class ContactsController < ApplicationController
   # GET /contacts/new
   def new
     @contact = Contact.new
+    @companies = Company.all.pluck(:name, :id)
   end
 
   # GET /contacts/1/edit
@@ -28,7 +29,7 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
+        format.html { redirect_to controller: 'companies', action: 'show', id: contact_params[:company_id], notice: 'Contact was successfully created.' }
         format.json { render :show, status: :created, location: @contact }
       else
         format.html { render :new }
@@ -36,6 +37,34 @@ class ContactsController < ApplicationController
       end
     end
   end
+
+  def create_contact
+    @contact = Contact.new(contact_params)
+
+    respond_to do |format|
+      if @contact.save
+        format.html { redirect_to controller: 'companies', action: 'show', id: contact_params[:company_id], notice: 'Contact was successfully created.' }
+        format.json { render :show, status: :created, location: @contact }
+      else
+        format.html { render :new }
+        format.json { render json: @contact.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def connect_user
+    @connection = Connect.new(connector_id: params[:id], connectee_id: params[:new_contact_id])
+    respond_to do |format|
+      if @connection.save
+        format.html { redirect_to controller: 'companies', action: 'show', id: contact_params[:company_id], notice: 'Contact was successfully created.' }
+        format.json { render :show, status: :created, location: @connection }
+      else
+        format.html { render :new }
+        format.json { render json: @connection.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   # PATCH/PUT /contacts/1
   # PATCH/PUT /contacts/1.json
@@ -69,6 +98,6 @@ class ContactsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def contact_params
-      params.require(:contact).permit(:name, :company_id)
+      params.permit(:name, :company_id, :new_contact_id)
     end
 end

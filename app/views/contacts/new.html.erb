@@ -1,5 +1,12 @@
-<h1>New Contact</h1>
+<div class="flex mb-8">
+  <div class="w-1/5">
+    <div class="my-8">
+      <%= link_to 'Back', contacts_path, class: "bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" %>
+    </div>
+  </div>
+  <div class="w-3/5">
+    <div class="font-bold text-2xl my-10 ">Create New Contact</div>
 
-<%= render 'form', contact: @contact %>
-
-<%= link_to 'Back', contacts_path %>
+    <%= render 'new_form', contact: @contact %>
+  </div>
+</div>
