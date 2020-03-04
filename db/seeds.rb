@@ -12,3 +12,10 @@
 new_company = Company.create(name:"Two Red Kites - Take away", abn: "1234223")
 first_contact = Contact.create(name:"Nigel", company_id:1)
 second_contact = Contact.create(name:"Geoff", company_id:1)
+
+names = ["Jim Bobs", "Jib Cobs", "Jia Sob", "Jil Jobs"]
+
+names.each { |name| Contact.create(name: name)}
+
+
+# Connect.create(connector_id: rand(1..3), connectee_id: rand(4..6))
