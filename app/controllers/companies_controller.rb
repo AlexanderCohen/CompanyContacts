@@ -10,6 +10,9 @@ class CompaniesController < ApplicationController
   # GET /companies/1
   # GET /companies/1.json
   def show
+    @contacts = Contact.all.where(company_id: params[:id])
+    @company_contact_list = @contacts.pluck(:name,:id)
+
   end
 
   # GET /companies/new
@@ -69,6 +72,6 @@ class CompaniesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def company_params
-      params.require(:company).permit(:name, :abn)
+      params.require(:company).permit(:name, :abn, :company_id)
     end
 end
